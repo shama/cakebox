@@ -22,14 +22,13 @@ class DropboxSource extends DataSource {
  * @var array
  */
 	public $config = array(
-		'key' => '',
-		'secret' => '',
+		'consumer_key' => '',
+		'consumer_secret' => '',
 		'token' => '',
 		'token_secret' => '',
 		'host' => 'api.dropbox.com',
 		'version' => '1',
 		'authorize_url' => 'https://www.dropbox.com/1/oauth/authorize',
-		'session_name' => 'Dropbox',
 		'api_content_host' => 'api-content.dropbox.com',
 		'api_content_endpoints' => array(
 			'files',
@@ -60,12 +59,6 @@ class DropboxSource extends DataSource {
 	public $oauth = null;
 
 /**
- * Session
- * @var object
- */
-	//public $Session = null;
-
-/**
  * __construct
  * @param array $config
  */
@@ -76,7 +69,7 @@ class DropboxSource extends DataSource {
 
 /**
  * init
- * Inits the socket, session and cache.
+ * Inits the socket and cache.
  *
  * @param array $config
  * @return bool
@@ -160,8 +153,8 @@ class DropboxSource extends DataSource {
 			'path' => 'https://' . $host . '/' . $this->config['version'] . '/' . $endpoint,
 			'parameters'=> $data['conditions'],
 			'signatures' => array(
-				'consumer_key'	=> $this->config['key'],
-				'shared_secret'	=> $this->config['secret'],
+				'consumer_key'	=> $this->config['consumer_key'],
+				'shared_secret'	=> $this->config['consumer_secret'],
 				'oauth_token'	=> $this->config['token'],
 				'oauth_secret'	=> $this->config['token_secret'],
 			)
@@ -265,8 +258,8 @@ class DropboxSource extends DataSource {
 				'oauth_callback' => $callback,
 			),
 			'signatures' => array(
-				'consumer_key' => $this->config['key'],
-				'shared_secret' => $this->config['secret']
+				'consumer_key' => $this->config['consumer_key'],
+				'shared_secret' => $this->config['consumer_secret']
 			)
 		));
 		$res = $this->_request($res['signed_url']);
@@ -295,8 +288,8 @@ class DropboxSource extends DataSource {
 				'oauth_token' => $params['oauth_token'],
 			),
 			'signatures' => array(
-				'consumer_key' => $this->config['key'],
-				'shared_secret' => $this->config['secret'],
+				'consumer_key' => $this->config['consumer_key'],
+				'shared_secret' => $this->config['consumer_secret'],
 				'oauth_secret' => $params['oauth_token_secret'],
 				'oauth_token' => $params['oauth_token'],
 			),

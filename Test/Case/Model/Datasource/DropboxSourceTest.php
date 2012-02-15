@@ -18,8 +18,8 @@ class DropboxSourceTest extends CakeTestCase {
  * @access public
  */
 	var $config = array(
-		'key' => '1234',
-		'secret' => '1234',
+		'consumer_key' => '1234',
+		'consumer_secret' => '1234',
 		'cache' => 'test_dropbox_cache',
 	);
 
