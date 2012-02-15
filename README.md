@@ -34,9 +34,7 @@ key and secret:
 The easiest way to use this plugin is to include the `Dropbox.DropboxApi`
 component in your controller:
 
-    class PagesController extends AppController {
-        public $components = array('Dropbox.DropboxApi');
-    }
+    public $components = array('Dropbox.DropboxApi');
 
 ### Authorize with Dropbox
 
@@ -44,18 +42,42 @@ Before you can use the Dropbox API you need to authorize a Dropbox account to
 use your app. This is done through OAuth and the included component can help.
 Add a new method to your controller and call the `authorize()` method:
 
-    public function authorize() {
+    public function authorize_with_dropbox() {
         $this->DropboxApi->authorize();
     }
 
 This will take you through the redirect steps to authorize your Dropbox account
-with your app.
+with your app via OAuth.
 
-By default the tokens will be only saved in a session. You likely want to save
-them longer. The recommended way is to use the `AuthComponent` by including
+By default the tokens will be only saved in a session. You'll want to save them
+longer. The recommended way is to use the `AuthComponent` by including
 `Auth` in your controller's components. Then create the fields `dropbox_token`
-and `dropbox_token_secret` in your user table. Then the `DropboxApi` component
-will automatically save the tokens for the user.
+and `dropbox_token_secret` in your users table. Then the `DropboxApi` component
+will automatically save the tokens for the logged in user.
+
+If you don't want to use the default field names you can set them when including
+the component:
+
+    public $components = array(
+        'Dropbox.DropboxApi' => array(
+            'fields' => array(
+                'dropbox_token' => 'my_token_field',
+                'dropbox_token_secret' => 'my_secret_field',
+            ),
+        ),
+    );
+
+Or if you want to use another Dropbox Model or User Model:
+
+    public $components = array(
+        'Dropbox.DropboxApi' => array(
+            'userModel' => 'Member',
+            'dropboxModel' => 'MyDropbox',
+        ),
+    );
+
+Have a look in `Controller/Component/DropboxApiComponent.php` for all the
+settings.
 
 ### The Dropbox API
 
@@ -79,7 +101,7 @@ Dropbox API:
 
 Check the `Model/Dropbox.php` for more methods. All of the Dropbox API methods
 are available. Check the Dropbox API docs for more info:
-[https://www.dropbox.com/developers/reference/api]
+[https://www.dropbox.com/developers/reference/api].
 
 ### Your Own Dropbox Model
 
@@ -97,7 +119,7 @@ your `app/Model/` folder as such:
             $this->cp(array(
                 'from_path' => 'Copy/This/File.zip',
                 'to_path' => 'To/This/File2.zip',
-            );
+            ));
             return $this->ls('To/This/');
         }
     }
@@ -105,7 +127,7 @@ your `app/Model/` folder as such:
 You can use the `Dropbox.Dropbox` model anywhere with 
 `$Dropbox = ClassRegistry::init('Dropbox.Dropbox');`. Just be sure to set the
 properties `dropbox_token` and `dropbox_token_secret` with your authenticated
-tokens (not your consumer key/secret).
+tokens (*not your consumer key/secret*).
 
 ## Issues
 
