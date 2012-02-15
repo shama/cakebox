@@ -60,12 +60,12 @@ will automatically save the tokens for the user.
 ### The Dropbox API
 
 After you have authorized your app and have your tokens; you're ready to use the
-Dropbox API.
+Dropbox API:
 
     // Get a list of files from a root Dropbox folder
     $files = $this->DropboxApi->ls();
 
-    // Get files with a path
+    // Get files within a path
     $files = $this->DropboxApi->ls('Path/In/Dropbox');
 
     // Limit the amount of files returned
@@ -80,6 +80,32 @@ Dropbox API.
 Check the `Model/Dropbox.php` for more methods. All of the Dropbox API methods
 are available. Check the Dropbox API docs for more info:
 [https://www.dropbox.com/developers/reference/api]
+
+### Your Own Dropbox Model
+
+In order to keep your models fat and controller skinny. You may want to create
+your own model to handle more complex operations with Dropbox. Create a model in
+your `app/Model/` folder as such:
+
+    App::uses('Dropbox', 'Dropbox.Model');
+    class MyDropbox extends Dropbox {
+        public $dropbox_token = 'SET THESE TO YOUR TOKENS';
+        public $dropbox_token_secret = 'SET THESE TO YOUR TOKENS';
+
+        public function complex() {
+            $info = $this->account_info();
+            $this->cp(array(
+                'from_path' => 'Copy/This/File.zip',
+                'to_path' => 'To/This/File2.zip',
+            );
+            return $this->ls('To/This/');
+        }
+    }
+
+You can use the `Dropbox.Dropbox` model anywhere with 
+`$Dropbox = ClassRegistry::init('Dropbox.Dropbox');`. Just be sure to set the
+properties `dropbox_token` and `dropbox_token_secret` with your authenticated
+tokens (not your consumer key/secret).
 
 ## Issues
 
