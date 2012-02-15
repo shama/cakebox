@@ -14,12 +14,25 @@ class Dropbox extends DropboxAppModel {
 	public $name = 'Dropbox';
 
 /**
+ * Token for Dropbox
+ * @var string
+ */
+	public $dropbox_token = '';
+
+/**
+ * Token Secret for Dropbox
+ * @var string
+ */
+	public $dropbox_token_secret = '';
+
+/**
  * Retrieve a list of files
  * Dropbox API Method: /metadata
  * @return array
  */
 	public function ls() {
-		return call_user_func_array(array($this, 'metadata'), func_get_args());
+		$args = func_get_args();
+		return call_user_func_array(array($this, 'metadata'), $args);
 	}
 
 /**
@@ -28,7 +41,8 @@ class Dropbox extends DropboxAppModel {
  * @return array
  */
 	public function mkdir() {
-		return call_user_func_array(array($this, 'fileops__create_folder'), func_get_args());
+		$args = func_get_args();
+		return call_user_func_array(array($this, 'fileops__create_folder'), $args);
 	}
 
 /**
@@ -39,7 +53,8 @@ class Dropbox extends DropboxAppModel {
  * TODO: This needs to be a POST method
  */
 	public function cp() {
-		$conds = call_user_func_array(array($this, '_parseArgs'), func_get_args());
+		$args = func_get_args();
+		$conds = call_user_func_array(array($this, '_parseArgs'), $args);
 		$conds = array_merge(array(
 			'from_path' => '',
 			'to_path' => '',
@@ -55,7 +70,8 @@ class Dropbox extends DropboxAppModel {
  * TODO: This needs to be a POST method
  */
 	public function rm() {
-		return call_user_func_array(array($this, 'fileops__delete'), func_get_args());
+		$args = func_get_args();
+		return call_user_func_array(array($this, 'fileops__delete'), $args);
 	}
 
 /**
@@ -66,7 +82,8 @@ class Dropbox extends DropboxAppModel {
  * TODO: This needs to be a POST method
  */
 	public function mv() {
-		$conds = call_user_func_array(array($this, '_parseArgs'), func_get_args());
+		$args = func_get_args();
+		$conds = call_user_func_array(array($this, '_parseArgs'), $args);
 		$conds = array_merge(array(
 			'from_path' => '',
 			'to_path' => '',
@@ -80,7 +97,8 @@ class Dropbox extends DropboxAppModel {
  * @return array
  */
 	public function download() {
-		return call_user_func_array(array($this, 'files'), func_get_args());
+		$args = func_get_args();
+		return call_user_func_array(array($this, 'files'), $args);
 	}
 	
 /**
@@ -89,7 +107,8 @@ class Dropbox extends DropboxAppModel {
  * @return array
  */
 	public function link() {
-		return call_user_func_array(array($this, 'media'), func_get_args());
+		$args = func_get_args();
+		return call_user_func_array(array($this, 'media'), $args);
 	}
 
 /**
@@ -98,7 +117,8 @@ class Dropbox extends DropboxAppModel {
  * @return array
  */
 	public function account_info() {
-		return call_user_func_array(array($this, 'account__info'), func_get_args());
+		$args = func_get_args();
+		return call_user_func_array(array($this, 'account__info'), $args);
 	}
 
 /**

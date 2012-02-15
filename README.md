@@ -31,6 +31,7 @@ key and secret:
 
 ## Usage
 
+### Authenticate
 Coming soon. For now check the test cases.
 
 ## Issues

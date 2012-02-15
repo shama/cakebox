@@ -107,7 +107,13 @@ class DropboxSource extends DataSource {
 	public function read($Model, $data = array()) {
 		// Get tokens
 		$this->config['token'] = !empty($Model->dropbox_token) ? $Model->dropbox_token : '';
-		$this->config['token_scret'] = !empty($Model->dropbox_secret) ? $Model->dropbox_secret : '';
+		$this->config['token_secret'] = !empty($Model->dropbox_token_secret) ? $Model->dropbox_token_secret : '';
+		if (empty($this->config['token']) && !empty($data['conditions']['token'])) {
+			$this->config['token'] = $data['conditions']['token'];
+		}
+		if (empty($this->config['token_secret']) && !empty($data['conditions']['token_secret'])) {
+			$this->config['token_secret'] = $data['conditions']['token_secret'];
+		}
 		
 		// Get the api or use the model alias as api
 		$api = !empty($data['fields']['api']) ? $data['fields']['api'] : Inflector::underscore($Model->alias);
