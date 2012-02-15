@@ -35,7 +35,7 @@ class DropboxApiComponentTest extends CakeTestCase {
 	public $settings = array(
 		'fields' => array(
 			'dropbox_token' => 'token',
-			'dropbox_secret' => 'secret',
+			'dropbox_token_secret' => 'secret',
 			'dropbox_userid' => 'userid',
 		),
 		'dropboxModel' => 'TestDropbox',
@@ -77,7 +77,7 @@ class DropboxApiComponentTest extends CakeTestCase {
 	public function testSettings() {
 		$settings = $this->DropboxApi->settings;
 		$this->assertTrue(($settings['fields']['dropbox_token'] === 'token'));
-		$this->assertTrue(($settings['fields']['dropbox_secret'] === 'secret'));
+		$this->assertTrue(($settings['fields']['dropbox_token_secret'] === 'secret'));
 		$this->assertTrue(($settings['fields']['dropbox_userid'] === 'userid'));
 		$this->assertTrue(($settings['dropboxModel'] === 'TestDropbox'));
 		$this->assertTrue(($settings['dropboxCallback'] === 'http://example.com/test/'));
@@ -137,7 +137,7 @@ class DropboxApiComponentTest extends CakeTestCase {
 		$this->DropboxApi->authorize();
 
 		$this->assertEquals('token1234', $DropboxModel->dropbox_token);
-		$this->assertEquals('secret1234', $DropboxModel->dropbox_secret);
+		$this->assertEquals('secret1234', $DropboxModel->dropbox_token_secret);
 		$this->assertEquals($this->settings['user']['id'], $UserModel->id);
 	}
 
@@ -156,6 +156,6 @@ class DropboxApiComponentTest extends CakeTestCase {
 		);
 		$this->DropboxApi->authorize();
 		$this->assertEquals('token1234', $DropboxModel->dropbox_token);
-		$this->assertEquals('secret1234', $DropboxModel->dropbox_secret);
+		$this->assertEquals('secret1234', $DropboxModel->dropbox_token_secret);
 	}
 }

@@ -17,7 +17,7 @@ class DropboxApiComponent extends Component {
 	public $settings = array(
 		'fields' => array(
 			'dropbox_token' => 'dropbox_token',
-			'dropbox_secret' => 'dropbox_secret',
+			'dropbox_token_secret' => 'dropbox_token_secret',
 			'dropbox_userid' => 'dropbox_userid',
 		),
 		'dropboxModel' => 'Dropbox.Dropbox',
@@ -69,7 +69,7 @@ class DropboxApiComponent extends Component {
  */
 	public function authorize() {
 		$token = !empty($this->settings['fields']['dropbox_token']) ? $this->settings['fields']['dropbox_token'] : null;
-		$secret = !empty($this->settings['fields']['dropbox_secret']) ? $this->settings['fields']['dropbox_secret'] : null;
+		$secret = !empty($this->settings['fields']['dropbox_token_secret']) ? $this->settings['fields']['dropbox_token_secret'] : null;
 
 		$user = array();
 		// TODO: Use a better way to check for Auth as it could be aliased
@@ -83,7 +83,7 @@ class DropboxApiComponent extends Component {
 
 		// Make sure token/secret exist in userModel
 		if (!key_exists($token, $user) || !key_exists($secret, $user)) {
-			throw new CakeException(__d('dropbox', 'Please create your dropbox_token and dropbox_secret fields in your user model.'));
+			throw new CakeException(__d('dropbox', 'Please create your dropbox_token and dropbox_token_secret fields in your user model.'));
 			return false;
 		}
 
@@ -141,7 +141,7 @@ class DropboxApiComponent extends Component {
 
 		// Give Dropbox Model our tokens
 		$this->_dropboxModel->dropbox_token = $user[$token];
-		$this->_dropboxModel->dropbox_secret = $user[$secret];
+		$this->_dropboxModel->dropbox_token_secret = $user[$secret];
 		return true;
 	}
 
