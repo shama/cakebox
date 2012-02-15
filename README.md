@@ -1,4 +1,4 @@
-# Cakebox: A Dropbox API Wrapper for CakePHP
+# Cakebox: A Dropbox API Plugin for CakePHP 2
 
 ## Requirements
 
@@ -12,27 +12,47 @@ PHP5+, CakePHP 2+, Dropbox account (w/ API credentials)
 [git submodule](http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html)
 in your app/Plugin folder:
 
-    git clone git://github.com/shama/cakebox.git Dropbox
+        git clone git://github.com/shama/cakebox.git Dropbox
 
 3. Enable the plugin in your `app/Config/bootstrap.php` with:
 
-    CakePlugin::loadAll();
-    // OR
-    CakePlugin::load('Dropbox');
+        CakePlugin::loadAll();
+        // OR
+        CakePlugin::load('Dropbox');
 
 4. Copy the following lines into `app/Config/database.php` and add your consumer
 key and secret:
 
-    var $dropbox = array(
-        'datasource' => 'Dropbox.DropboxSource',
-        'key' => 'CONSUMER KEY HERE',
-        'secret' => 'CONSUMER SECRET HERE',
-    );`
+        public $dropbox = array(
+            'datasource' => 'Dropbox.DropboxSource',
+            'consumer_key' => 'CONSUMER KEY HERE',
+            'consumer_secret' => 'CONSUMER SECRET HERE',
+        );
 
 ## Usage
 
-### Authenticate
-Coming soon. For now check the test cases.
+The easiest way to use this plugin is to include the `Dropbox.DropboxApi`
+component in your controller:
+
+    class PagesController extends AppController {
+        public $components = array('Dropbox.DropboxApi');
+    }
+
+### Authorize with Dropbox
+
+Before you can use the Dropbox API you need to authorize a dropbox account to
+use your app. This is done through OAuth and the included component can help:
+
+    class PagesController extends AppController {
+        public $components = array('Dropbox.DropboxApi');
+
+        public function authorize() {
+            $this->DropboxApi->authorize();
+        }
+    }
+
+This will take you through the redirect steps to authorize your Dropbox account
+with your app.
 
 ## Issues
 
