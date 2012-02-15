@@ -40,19 +40,46 @@ component in your controller:
 
 ### Authorize with Dropbox
 
-Before you can use the Dropbox API you need to authorize a dropbox account to
-use your app. This is done through OAuth and the included component can help:
+Before you can use the Dropbox API you need to authorize a Dropbox account to
+use your app. This is done through OAuth and the included component can help.
+Add a new method to your controller and call the `authorize()` method:
 
-    class PagesController extends AppController {
-        public $components = array('Dropbox.DropboxApi');
-
-        public function authorize() {
-            $this->DropboxApi->authorize();
-        }
+    public function authorize() {
+        $this->DropboxApi->authorize();
     }
 
 This will take you through the redirect steps to authorize your Dropbox account
 with your app.
+
+By default the tokens will be only saved in a session. You likely want to save
+them longer. The recommended way is to use the `AuthComponent` by including
+`Auth` in your controller's components. Then create the fields `dropbox_token`
+and `dropbox_token_secret` in your user table. Then the `DropboxApi` component
+will automatically save the tokens for the user.
+
+### The Dropbox API
+
+After you have authorized your app and have your tokens; you're ready to use the
+Dropbox API.
+
+    // Get a list of files from a root Dropbox folder
+    $files = $this->DropboxApi->ls();
+
+    // Get files with a path
+    $files = $this->DropboxApi->ls('Path/In/Dropbox');
+
+    // Limit the amount of files returned
+    $files = $this->DropboxApi->ls('Path/In/Dropbox', array('file_limit' => 10));
+
+    // Alternative syntax
+    $files = $this->DropboxApi->ls(array(
+        'path' => 'Path/In/Dropbox',
+        'file_limit' => 10,
+    ));
+
+Check the `Model/Dropbox.php` for more methods. All of the Dropbox API methods
+are available. Check the Dropbox API docs for more info:
+[https://www.dropbox.com/developers/reference/api]
 
 ## Issues
 
