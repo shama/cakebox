@@ -50,8 +50,8 @@ class DropboxApiComponent extends Component {
  * @param array $this->settings
  */
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
+		$settings = Set::merge($this->settings, $settings);
 		parent::__construct($Collection, $settings);
-		$this->settings = Set::merge($this->settings, $settings);
 	}
 
 /**
