@@ -1,4 +1,7 @@
 <?php
+App::uses('CakeSession', 'Model/Datasource');
+App::uses('AuthComponent', 'Controller/Component');
+
 /**
  * Dropbox Api Component
  * For help generating tokens and logging into Dropbox.
@@ -7,8 +10,6 @@
  * @author Kyle Robinson Young <kyle at dontkry.com>
  * @copyright 2012 Kyle Robinson Young
  */
-App::uses('CakeSession', 'Model/Datasource');
-App::uses('AuthComponent', 'Controller/Component');
 class DropboxApiComponent extends Component {
 /**
  * settings
@@ -72,13 +73,17 @@ class DropboxApiComponent extends Component {
 		$secret = !empty($this->settings['fields']['dropbox_token_secret']) ? $this->settings['fields']['dropbox_token_secret'] : null;
 
 		$user = array();
-		// TODO: Use a better way to check for Auth as it could be aliased
 		if (isset($this->_Controller->Auth)) {
 			// Get User from Auth
 			$user = $this->_Controller->Auth->user();
 		} else if (!empty($this->settings['user'])) {
 			// If manually passed
 			$user = $this->settings['user'];
+		}
+
+		// If $user has a Model alias
+		if (isset($user[$this->settings['userModel']])) {
+			$user = $user[$this->settings['userModel']];
 		}
 
 		// Make sure token/secret exist in userModel

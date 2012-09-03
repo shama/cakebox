@@ -148,11 +148,13 @@ class DropboxApiComponentTest extends CakeTestCase {
 		$DropboxModel = $this->getMock('Dropbox', array(), array(), 'TestDropboxAuthorize');
 		$this->DropboxApi->dropboxModel = $DropboxModel;
 		$this->DropboxApi->settings['user'] = array(
-			'id' => 1,
-			'username' => 'test',
-			'password' => '1234',
-			'token' => 'token1234',
-			'secret' => 'secret1234',
+			'User' => array(
+				'id' => 1,
+				'username' => 'test',
+				'password' => '1234',
+				'token' => 'token1234',
+				'secret' => 'secret1234',
+			),
 		);
 		$this->DropboxApi->authorize();
 		$this->assertEquals('token1234', $DropboxModel->dropbox_token);
