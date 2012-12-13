@@ -175,8 +175,15 @@ class DropboxSource extends DataSource {
 			}
 			$res = json_decode($json, true);
 			if (is_null($res) && !empty($json)) {
-				throw new Exception(__d('dropbox', 'Error decoding json, run json_last_error() after to see the error code.'));
-				return array();
+				// file download - output file content
+				if (gettype($json) == 'object' && isset($json['body'])) {
+					return $json->body;
+				
+				// json exception
+				} else {
+					throw new Exception(__d('dropbox', 'Error decoding json, run json_last_error() after to see the error code.'));
+					return array();
+				}
 			}
 			if ($res === false) {
 				return array();
