@@ -134,6 +134,8 @@ class Dropbox extends DropboxAppModel {
 		}
 		$method = str_replace('__', '/', $method);
 		$conds = call_user_func_array(array($this, '_parseArgs'), $params);
+		debug($method);
+		debug($conds);
 		return $this->find('all', array(
 			'fields' => array('api' => $method),
 			'conditions' => $conds,
